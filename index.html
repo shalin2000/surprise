@@ -167,17 +167,35 @@
     let offsetX = 0;
     let offsetY = 0;
     
+    const buttonsContainer = document.querySelector(".buttons");
+
+    let currentX = 0;
+    let currentY = 0;
+
+    // Maximum movement range (safe inside container)
+    const MAX_X = 120;
+    const MAX_Y = 80;
+    
     function moveNoButton() {
-      const moveAmount = 25; // how far it moves (safe + cute)
+      const newX = (Math.random() * MAX_X * 2) - MAX_X;
+      const newY = (Math.random() * MAX_Y * 2) - MAX_Y;
     
-      const deltaX = (Math.random() * moveAmount * 2) - moveAmount;
-      const deltaY = (Math.random() * moveAmount * 2) - moveAmount;
+      currentX = newX;
+      currentY = newY;
     
-      offsetX = Math.max(-40, Math.min(40, offsetX + deltaX));
-      offsetY = Math.max(-30, Math.min(30, offsetY + deltaY));
-    
-      noBtn.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      noBtn.style.transition = "transform 0.15s ease";
+      noBtn.style.transform = `translate(${currentX}px, ${currentY}px)`;
     }
+    
+    // Desktop
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    
+    // Mobile
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
 
     noBtn.addEventListener("mouseenter", moveNoButton);
     noBtn.addEventListener("touchstart", (e) => {
